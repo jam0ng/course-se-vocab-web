@@ -4,25 +4,31 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [adminCode, setAdminCode] = useState('');
   const [message, setMessage] = useState('');
-  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    if (!email || !username || !password) {
+      setMessage('❌ 모든 필드를 입력해주세요.');
+      return;
+    }
+
     try {
       const res = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, username, password }),
+        body: JSON.stringify({ email, username, password, adminCode }),
       });
       const data = await res.json();
 
       if (res.ok) {
-        setMessage('✅ 회원가입 성공! 로그인 화면으로 이동합니다.');
-        setTimeout(() => navigate('/login'), 1000); // ✅ 1초 후 자동 이동
+        alert('회원가입 성공!');
+        navigate('/login');
       } else {
         setMessage(`❌ ${data.message}`);
       }
@@ -46,8 +52,9 @@ const Register = () => {
 
       <form onSubmit={handleRegister} style={{ display: 'flex', flexDirection: 'column', gap: '15px', marginTop: '1.5rem' }}>
         <input type="email" placeholder="이메일" value={email} onChange={(e) => setEmail(e.target.value)} required style={{ padding: '0.7rem', borderRadius: '6px', border: '1px solid #ccc' }} />
-        <input type="text" placeholder="사용자 이름" value={username} onChange={(e) => setUsername(e.target.value)} required style={{ padding: '0.7rem', borderRadius: '6px', border: '1px solid #ccc' }} />
+        <input type="text" placeholder="닉네임" value={username} onChange={(e) => setUsername(e.target.value)} required style={{ padding: '0.7rem', borderRadius: '6px', border: '1px solid #ccc' }} />
         <input type="password" placeholder="비밀번호" value={password} onChange={(e) => setPassword(e.target.value)} required style={{ padding: '0.7rem', borderRadius: '6px', border: '1px solid #ccc' }} />
+        <input type="text" placeholder="관리자 코드 (일반 유저는 비워두세요)" value={adminCode} onChange={(e) => setAdminCode(e.target.value)} style={{ padding: '0.7rem', borderRadius: '6px', border: '1px solid #ccc' }} />
         <button type="submit" style={{ padding: '0.8rem', borderRadius: '8px', border: 'none', background: '#339af0', color: '#fff', cursor: 'pointer' }}>회원가입</button>
       </form>
 
