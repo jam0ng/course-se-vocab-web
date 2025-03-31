@@ -21,6 +21,9 @@ app.use('/api/auth', authRoutes);
 const quizRoutes = require('./routes/quizRoutes');
 app.use('/api/quiz', quizRoutes);
 
+const adminWordRoutes = require('./routes/adminWordRoutes');
+app.use('/api/admin/words', adminWordRoutes);
+
 // 테스트용 기본 라우트
 app.get('/', (req, res) => {
   res.send('서버가 정상적으로 작동 중입니다!');
