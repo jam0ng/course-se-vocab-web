@@ -64,6 +64,24 @@ const MainPage = ({ user, onLogout }) => {
           📚 단어장 보기
         </button>
 
+        {/* ✅ 사용자 전용 메뉴 */}
+        {user?.role === 'user' && (
+          <button
+            onClick={() => navigate('/mywords')}
+            style={{
+              padding: '0.8rem',
+              borderRadius: '8px',
+              border: '1px solid #ccc',
+              background: '#f8f9fa',
+              color: '#000',
+              cursor: 'pointer',
+              fontSize: '1.1rem'
+            }}
+        >
+            ⭐ 나만의 단어장
+          </button>
+        )}
+
         {/* ✅ 관리자 전용 메뉴 */}
         {user?.role === 'admin' && (
           <button
