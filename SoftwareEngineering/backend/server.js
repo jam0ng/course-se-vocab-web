@@ -24,6 +24,9 @@ app.use('/api/quiz', quizRoutes);
 const adminWordRoutes = require('./routes/adminWordRoutes');
 app.use('/api/admin/words', adminWordRoutes);
 
+const bookmarkRoutes = require('./routes/bookmarkRoutes');
+app.use('/api/bookmarks', bookmarkRoutes);
+
 // 테스트용 기본 라우트
 app.get('/', (req, res) => {
   res.send('서버가 정상적으로 작동 중입니다!');

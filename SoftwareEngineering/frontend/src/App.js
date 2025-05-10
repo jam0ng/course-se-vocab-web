@@ -11,6 +11,8 @@ import QuizStart from './components/QuizStart';
 import QuizWord from './components/QuizWord';
 import QuizResult from './components/QuizResult';
 import AdminWordManager from './components/AdminWordManager';
+import MyWordList from './components/MyWordList';
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -52,6 +54,8 @@ function App() {
           <Route path="/quiz" element={<QuizWord />} />
           <Route path="/quiz-result" element={<QuizResult />} />
           <Route path="/admin/words" element={<AdminWordManager />} />
+          <Route path="/mywords" element={<MyWordList />} />
+
 
           {/* ✨ 임시 마이페이지 */}
           <Route path="/mypage" element={<h2>마이페이지 (준비중)</h2>} />
