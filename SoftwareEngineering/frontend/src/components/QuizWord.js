@@ -1,5 +1,3 @@
-// src/components/QuizWord.js
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,6 +10,15 @@ const QuizWord = () => {
   const [count, setCount] = useState(1);
   const [score, setScore] = useState(0);
   const navigate = useNavigate();
+
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  useEffect(() => {
+    if (!user || user.role !== 'user') {
+      alert('일반 사용자만 접근 가능한 기능입니다.');
+      navigate('/');
+    }
+  }, []);
 
   const fetchQuiz = async () => {
     setResult('');
@@ -91,7 +98,6 @@ const QuizWord = () => {
 
       <p style={{ marginTop: '1rem' }}>{result}</p>
 
-      {/* ✅ 여기부터 버튼 디자인 적용 */}
       {result && (
         <div style={{ display: 'flex', gap: '10px', marginTop: '1rem' }}>
           <button
@@ -107,8 +113,6 @@ const QuizWord = () => {
               transition: '0.2s',
               boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
             }}
-            onMouseOver={e => e.target.style.background = '#1c7ed6'}
-            onMouseOut={e => e.target.style.background = '#339af0'}
           >
             다음 문제 ▶
           </button>
@@ -126,8 +130,6 @@ const QuizWord = () => {
               transition: '0.2s',
               boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
             }}
-            onMouseOver={e => e.target.style.background = '#37b24d'}
-            onMouseOut={e => e.target.style.background = '#51cf66'}
           >
             메인으로 돌아가기
           </button>

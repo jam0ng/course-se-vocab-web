@@ -1,12 +1,19 @@
-// src/components/QuizResult.js
-
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const QuizResult = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { score, total } = location.state || { score: 0, total: 10 };
+
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  useEffect(() => {
+    if (!user || user.role !== 'user') {
+      alert('일반 사용자만 접근 가능한 기능입니다.');
+      navigate('/');
+    }
+  }, []);
 
   return (
     <div style={{
@@ -23,7 +30,6 @@ const QuizResult = () => {
         당신의 점수는 <strong style={{ color: '#51cf66' }}>{score} / {total}</strong> 입니다!
       </p>
 
-      {/* 간단한 피드백 */}
       <div style={{
         background: '#fff3bf',
         padding: '1rem',
