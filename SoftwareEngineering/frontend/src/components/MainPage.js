@@ -36,19 +36,23 @@ const MainPage = ({ user, onLogout }) => {
 
       {/* 메뉴 버튼 */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', marginTop: '1rem' }}>
-        <button
-          onClick={() => navigate('/quiz-start')}
-          style={{
-            padding: '0.8rem',
-            borderRadius: '8px',
-            border: '1px solid #ddd',
-            background: '#f8f9fa',
-            cursor: 'pointer',
-            fontSize: '1.1rem'
-          }}
-        >
-          🧠 퀴즈 시작하기
-        </button>
+
+        {/* ✅ 사용자 전용 메뉴 */}
+        {user?.role === 'user' && (
+          <button
+            onClick={() => navigate('/quiz-start')}
+            style={{
+              padding: '0.8rem',
+              borderRadius: '8px',
+              border: '1px solid #ddd',
+              background: '#f8f9fa',
+              cursor: 'pointer',
+              fontSize: '1.1rem'
+            }}
+          >
+            🧠 퀴즈 시작하기
+          </button>
+        )}
 
         <button
           onClick={() => navigate('/wordlist')}
@@ -77,7 +81,7 @@ const MainPage = ({ user, onLogout }) => {
               cursor: 'pointer',
               fontSize: '1.1rem'
             }}
-        >
+          >
             ⭐ 나만의 단어장
           </button>
         )}
@@ -99,19 +103,6 @@ const MainPage = ({ user, onLogout }) => {
           </button>
         )}
 
-        <button
-          onClick={onLogout}
-          style={{
-            padding: '0.8rem',
-            borderRadius: '8px',
-            border: '1px solid #ddd',
-            background: '#ffe6e6',
-            cursor: 'pointer',
-            fontSize: '1.1rem'
-          }}
-        >
-          🚪 로그아웃
-        </button>
       </div>
     </div>
   );

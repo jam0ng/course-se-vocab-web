@@ -8,6 +8,12 @@ const Header = () => {
   const location = useLocation();
   const isHome = location.pathname === '/';
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
+
   const buttonStyle = {
     padding: '0.5rem 1rem',
     borderRadius: '8px',
@@ -31,7 +37,7 @@ const Header = () => {
       boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
       marginBottom: '1rem'
     }}>
-      {/* 왼쪽 */}
+      {/* 왼쪽: 뒤로가기 + 홈 버튼 */}
       <div style={{ display: 'flex', gap: '10px' }}>
         {!isHome && (
           <button
@@ -53,8 +59,8 @@ const Header = () => {
         </button>
       </div>
 
-      {/* 오른쪽 */}
-      <div>
+      {/* 오른쪽: 마이페이지 + 로그아웃 버튼 */}
+      <div style={{ display: 'flex', gap: '10px' }}>
         <button
           style={buttonStyle}
           onClick={() => navigate('/mypage')}
@@ -62,6 +68,15 @@ const Header = () => {
           onMouseOut={e => e.target.style.background = '#f8f9fa'}
         >
           마이페이지
+        </button>
+
+        <button
+          style={{ ...buttonStyle, background: '#ffe6e6' }}
+          onClick={handleLogout}
+          onMouseOver={e => e.target.style.background = '#ffc9c9'}
+          onMouseOut={e => e.target.style.background = '#ffe6e6'}
+        >
+          🚪 로그아웃
         </button>
       </div>
     </div>

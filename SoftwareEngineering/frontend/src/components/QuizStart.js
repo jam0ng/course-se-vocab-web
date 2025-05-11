@@ -1,10 +1,16 @@
-// src/components/QuizStart.js
-
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const QuizStart = () => {
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  useEffect(() => {
+    if (!user || user.role !== 'user') {
+      alert('일반 사용자만 접근 가능한 기능입니다.');
+      navigate('/');
+    }
+  }, []);
 
   return (
     <div style={{
@@ -18,7 +24,7 @@ const QuizStart = () => {
     }}>
       <h2>🧠 TOEIC 뜻 고르기 퀴즈</h2>
       <p style={{ color: '#555', marginBottom: '1rem' }}>
-        총 10문제를 풀어볼 거예요!  
+        총 10문제를 풀어볼 거예요!
       </p>
       <div style={{
         background: '#e7f5ff',
