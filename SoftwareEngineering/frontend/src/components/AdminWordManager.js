@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const fontStyle = {
+const fontStyle = { // 전역적으로 사용할 폰트 스타일 객체
   fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
   fontSize: '1rem',
   fontWeight: '400'
 };
 
-const headingStyle = {
+const headingStyle = {  // 헤딩(제목) 스타일 객체
   fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
   fontSize: '1.5rem',
   fontWeight: '700',
@@ -16,50 +16,50 @@ const headingStyle = {
 };
 
 const AdminWordManager = () => {
-  const [words, setWords] = useState([]);
-  const [filteredWords, setFilteredWords] = useState([]);
-  const [search, setSearch] = useState('');
-  const [page, setPage] = useState(1);
-  const [editingWord, setEditingWord] = useState(null);
-  const [english, setEnglish] = useState('');
-  const [korean, setKorean] = useState('');
-  const [example, setExample] = useState('');
-  const [message, setMessage] = useState('');
-  const navigate = useNavigate();
-  const token = localStorage.getItem('token');
+  const [words, setWords] = useState([]);                   // 단어 목록 상태
+  const [filteredWords, setFilteredWords] = useState([]);   // 검색 후 필터링된 단어 목록 상태
+  const [search, setSearch] = useState('');                 // 검색어 상태
+  const [page, setPage] = useState(1);                      // 페이지 번호 상태
+  const [editingWord, setEditingWord] = useState(null);     // 수정 중인 단어 객체 상태
+  const [english, setEnglish] = useState('');               // 입력 폼 상태: 영어
+  const [korean, setKorean] = useState('');                 // 입력 폼 상태: 한글
+  const [example, setExample] = useState('');               // 입력 폼 상태: 예문
+  const [message, setMessage] = useState('');               // 사용자에게 보여줄 메세지 상태
+  const navigate = useNavigate();                           // react Router를 이용한 프로그래밍적 페이지 이동 훅?
+  const token = localStorage.getItem('token');              // 인증 토큰 로컬스토리지에서서 가져오기
 
-  const pageSize = 20;
+  const pageSize = 20;                                      // 사용자에게 보여줄 단어 개수
 
-  useEffect(() => {
+  useEffect(() => { // 컴포넌트가 마운트될 때 한 번만 단어 목록을 가져옴
     fetchWords();
   }, []);
 
-  useEffect(() => {
+  useEffect(() => { // 단어 목록(words)이나 검색어(search)가 변경될 대 필터링 함수 호출
     handleSearch(search);
   }, [words, search]);
 
-  const fetchWords = async () => {
-    const res = await fetch('http://localhost:5000/api/words');
+  const fetchWords = async () => {  // 서버에서 단어 목록을 가져오는 함수
+    const res = await fetch('http://localhost:3001/api/words');
     const data = await res.json();
-    const sorted = data.sort((a, b) => a.english.localeCompare(b.english));
+    const sorted = data.sort((a, b) => a.english.localeCompare(b.english)); // 영어 단어 오름차순 정렬렬
     setWords(sorted);
   };
 
-  const handleSearch = (text) => {
+  const handleSearch = (text) => {  // 검색어에 기반해 단어 목록을 필터링하는 함수
     const result = words.filter(word =>
       word.english.toLowerCase().includes(text.toLowerCase()) ||
       word.korean.includes(text)
     );
     setFilteredWords(result);
-    setPage(1);
+    setPage(1);               // 검색 결과가 바뀌면 페이지를 1로 초기화
   };
 
-  const handleAdd = async () => {
-    if (!english || !korean || !example) {
+  const handleAdd = async () => { // 관리자 권한으로 단어를 추가하는 함수
+    if (!english || !korean || !example) {  // 필수 입력값 검증
       return setMessage('❌ 영어, 한글 뜻, 예문을 모두 입력해주세요.');
     }
 
-    const res = await fetch('http://localhost:5000/api/admin/words/add', {
+    const res = await fetch('http://localhost:3001/api/admin/words/add', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ const AdminWordManager = () => {
 
   const handleDelete = async (id) => {
     if (!window.confirm('정말 삭제할까요?')) return;
-    await fetch(`http://localhost:5000/api/admin/words/delete/${id}`, {
+    await fetch(`http://localhost:3001/api/admin/words/delete/${id}`, {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` },
     });
@@ -93,7 +93,7 @@ const AdminWordManager = () => {
 
   const handleEditSubmit = async () => {
     if (!editingWord) return;
-    await fetch(`http://localhost:5000/api/admin/words/edit/${editingWord._id}`, {
+    await fetch(`http://localhost:3001/api/admin/words/edit/${editingWord._id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
