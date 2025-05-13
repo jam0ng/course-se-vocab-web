@@ -54,6 +54,7 @@ const MainPage = ({ user, onLogout }) => {
           </button>
         )}
 
+        {/* ✅ 공통 메뉴 */}
         <button
           onClick={() => navigate('/wordlist')}
           style={{
