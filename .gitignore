@@ -1,2 +1,4 @@
-SoftwareEngineering/frontend/node_modules/.cache/
+SoftwareEngineering/frontend/node_modules/
+
 SoftwareEngineering/backend/.env
+SoftwareEngineering/backend/node_modules/
