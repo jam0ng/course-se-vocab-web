@@ -5,34 +5,51 @@ const Word = require('../models/Word');
 
 const router = express.Router();
 
-// ✅ 퀴즈 출제 API (뜻 → 영어 보기)
 router.get('/word', async (req, res) => {
   try {
+    const difficulty = req.query.difficulty || 'easy';
+
     const words = await Word.find();
     if (words.length < 4) {
       return res.status(400).json({ message: '단어가 4개 이상 등록되어야 퀴즈를 낼 수 있습니다.' });
     }
 
-    // ✅ 정답 단어 랜덤 선택
     const correct = words[Math.floor(Math.random() * words.length)];
 
-    // ✅ 보기용 영어단어 3개 랜덤 선택 (정답 제외)
+    // 오답 보기 선택
     let choices = words
       .filter(w => w._id.toString() !== correct._id.toString())
       .sort(() => 0.5 - Math.random())
       .slice(0, 3)
       .map(w => w.english);
 
-    // ✅ 정답 삽입 후 섞기
     choices.push(correct.english);
     choices = choices.sort(() => 0.5 - Math.random());
 
-    // ✅ 응답
-    res.json({
+    // 쉬움 난이도: 뜻 → 영어
+    if (difficulty === 'easy') {
+      return res.json({
+        english: correct.english,
+        korean: correct.korean,
+        example: correct.example,
+        options: choices,
+        answer: correct.english,
+        _id: correct._id
+      });
+    }
+
+    // 어려움 난이도: 예문 빈칸
+    const blankedExample = correct.example.replace(
+      new RegExp(correct.english, 'gi'),
+      '_____'
+    );
+
+    return res.json({
       english: correct.english,
-      korean: correct.korean,
-      example: correct.example,
-      choices
+      example: blankedExample,
+      options: choices,
+      answer: correct.english,
+      _id: correct._id
     });
 
   } catch (err) {
