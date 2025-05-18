@@ -29,7 +29,7 @@ const QuizWord = () => {
   const fetchQuiz = async () => {
     setResult('');
     setSelected('');
-    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/quiz/word`);
+    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/quiz/word?difficulty=${difficulty}`);
     const data = await res.json();
     setQuiz(data);
   };
