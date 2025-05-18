@@ -26,7 +26,7 @@ const WordList = () => {
     fetchWords();
 
     const fetchBookmarks = async () => {
-      const res = await fetch('http://localhost:3001/api/bookmarks', {
+      const res = await fetch('${process.env.REACT_APP_API_BASE_URL}/api/bookmarks', {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.ok) {
@@ -40,7 +40,7 @@ const WordList = () => {
   }, [token]);
 
   const fetchWords = async () => {
-    const res = await fetch('http://localhost:3001/api/words');
+    const res = await fetch('${process.env.REACT_APP_API_BASE_URL}/api/words');
     const data = await res.json();
     setWords(data);
     setFilteredWords(data);
@@ -56,7 +56,7 @@ const WordList = () => {
     const method = isBookmarked ? 'DELETE' : 'POST';
 
     try {
-      const res = await fetch(`http://localhost:3001/api/bookmarks/${wordId}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/bookmarks/${wordId}`, {
         method,
         headers: {
           Authorization: `Bearer ${token}`

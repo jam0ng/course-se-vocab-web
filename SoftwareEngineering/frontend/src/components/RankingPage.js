@@ -50,7 +50,7 @@ const RankingPage = () => {
         <ol>
           {ranking.map((item, idx) => (
             <li key={idx}>
-              {idx + 1}. {item.username || '사용자'} - {item.totalScore ?? '-'}점
+              {item.username || '사용자'} - {item.totalScore ?? '-'}점
             </li>
           ))}
         </ol>

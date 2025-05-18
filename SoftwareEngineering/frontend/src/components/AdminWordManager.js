@@ -39,7 +39,7 @@ const AdminWordManager = () => {
   }, [words, search]);
 
   const fetchWords = async () => {  // 서버에서 단어 목록을 가져오는 함수
-    const res = await fetch('http://localhost:3001/api/words');
+    const res = await fetch('${process.env.REACT_APP_API_BASE_URL}/api/words');
     const data = await res.json();
     const sorted = data.sort((a, b) => a.english.localeCompare(b.english)); // 영어 단어 오름차순 정렬렬
     setWords(sorted);
@@ -59,7 +59,7 @@ const AdminWordManager = () => {
       return setMessage('❌ 영어, 한글 뜻, 예문을 모두 입력해주세요.');
     }
 
-    const res = await fetch('http://localhost:3001/api/admin/words/add', {
+    const res = await fetch('${process.env.REACT_APP_API_BASE_URL}/api/admin/words/add', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ const AdminWordManager = () => {
 
   const handleDelete = async (id) => {
     if (!window.confirm('정말 삭제할까요?')) return;
-    await fetch(`http://localhost:3001/api/admin/words/delete/${id}`, {
+    await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/admin/words/delete/${id}`, {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` },
     });
@@ -93,7 +93,7 @@ const AdminWordManager = () => {
 
   const handleEditSubmit = async () => {
     if (!editingWord) return;
-    await fetch(`http://localhost:3001/api/admin/words/edit/${editingWord._id}`, {
+    await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/admin/words/edit/${editingWord._id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

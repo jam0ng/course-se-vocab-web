@@ -23,7 +23,7 @@ const QuizWord = () => {
   const fetchQuiz = async () => {
     setResult('');
     setSelected('');
-    const res = await fetch('http://localhost:3001/api/quiz/word');
+    const res = await fetch('${process.env.REACT_APP_API_BASE_URL}/api/quiz/word');
     const data = await res.json();
     setQuiz(data);
   };

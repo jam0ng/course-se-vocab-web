@@ -14,7 +14,7 @@ const MyWordList = () => {
   useEffect(() => {
     const fetchBookmarkedWords = async () => {
       try {
-        const res = await fetch('http://localhost:3001/api/bookmarks', {
+        const res = await fetch('${process.env.REACT_APP_API_BASE_URL}/api/bookmarks', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -59,7 +59,7 @@ const MyWordList = () => {
     if (!window.confirm('정말 삭제하시겠습니까?')) return;
 
     try {
-      const res = await fetch(`http://localhost:3001/api/bookmarks/${wordId}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/bookmarks/${wordId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
