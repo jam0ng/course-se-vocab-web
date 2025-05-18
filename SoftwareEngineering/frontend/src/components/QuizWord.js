@@ -69,7 +69,7 @@ const QuizWord = () => {
         gridTemplateColumns: '1fr 1fr',
         gap: '15px'
       }}>
-        {quiz.choices.map((choice, idx) => (
+        {Array.isArray(quiz?.choices) && quiz.choices.map((choice, idx) => ( // 수정
           <button
             key={idx}
             disabled={!!result}

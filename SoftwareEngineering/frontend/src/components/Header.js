@@ -1,5 +1,4 @@
-// src/components/Header.js
-
+// Header.jsx
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -7,6 +6,8 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isHome = location.pathname === '/';
+  const token = localStorage.getItem('token');
+  const user = JSON.parse(localStorage.getItem('user'));
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -37,7 +38,7 @@ const Header = () => {
       boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
       marginBottom: '1rem'
     }}>
-      {/* 왼쪽: 뒤로가기 + 홈 버튼 */}
+      {/* 왼쪽: 뒤로가기 + 홈 버튼 + 일일 미션 */}
       <div style={{ display: 'flex', gap: '10px' }}>
         {!isHome && (
           <button
@@ -57,9 +58,20 @@ const Header = () => {
         >
           🏠 홈
         </button>
+
+        {user?.role === 'user' && (
+          <button
+            style={buttonStyle}
+            onClick={() => navigate('/mission')}
+            onMouseOver={e => e.target.style.background = '#e9ecef'}
+            onMouseOut={e => e.target.style.background = '#f8f9fa'}
+          >
+            ✅ 일일 미션
+          </button>
+        )}
       </div>
 
-      {/* 오른쪽: 마이페이지 + 로그아웃 버튼 */}
+      {/* 오른쪽: 마이페이지 + 로그아웃 */}
       <div style={{ display: 'flex', gap: '10px' }}>
         <button
           style={buttonStyle}

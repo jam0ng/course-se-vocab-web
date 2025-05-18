@@ -1,13 +1,13 @@
-// ========== routes/attendanceRouter.js ==========
+// ========== routes/router.js ==========
 const express = require('express');
 const { verifyToken } = require('../middlewares/authMiddleware');
-const DailyAttendance = require('../schemas/dailyAttendance');
+const DailyAttendance = require('../models/dailyAttendance');
 
-const attendanceRouter = express.Router();
+const router = express.Router();
 
 // POST /api/attendance/checkin
 // 사용자의 오늘 출석 체크를 처리합니다.
-attendanceRouter.post('/checkin', verifyToken, async (req, res) => {
+router.post('/checkin', verifyToken, async (req, res) => {
   const userId = req.user.id;
   const todayStart = new Date();
   todayStart.setHours(0,0,0,0);
@@ -25,7 +25,7 @@ attendanceRouter.post('/checkin', verifyToken, async (req, res) => {
 
 // GET /api/attendance/today
 // 사용자의 오늘 출석 상태를 반환합니다.
-attendanceRouter.get('/today', verifyToken, async (req, res) => {
+router.get('/today', verifyToken, async (req, res) => {
   const userId = req.user.id;
   const todayStart = new Date();
   todayStart.setHours(0,0,0,0);
@@ -37,4 +37,4 @@ attendanceRouter.get('/today', verifyToken, async (req, res) => {
   }
 });
 
-module.exports = attendanceRouter;
+module.exports = router;

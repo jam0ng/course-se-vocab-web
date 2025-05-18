@@ -1,52 +1,60 @@
-// ========== frontend/RankingPage.jsx ==========
 import React, { useEffect, useState } from 'react';
 
 const RankingPage = () => {
-  const [attendance, setAttendance] = useState(null);
-  const [quiz, setQuiz] = useState(null);
-  const [ranking, setRanking] = useState([]);
+  const [ranking, setRanking] = useState([]);       // ✅ 배열로 초기화
+  const [message, setMessage] = useState(''); 
 
-  // 오늘 출석 상태 호출
-  const fetchAttendance = async () => {
-    const res = await fetch('/api/attendance/today', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
-    const data = await res.json();
-    setAttendance(data);
-  };
 
-  // 오늘 퀴즈 상태 호출
-  const fetchQuiz = async () => {
-    const res = await fetch('/api/quiz/today', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
-    const data = await res.json();
-    setQuiz(data);
-  };
+  // DEBUG: 콘솔 로그 출력 여부, false로 바꾸면 디버깅 꺼짐
+  const DEBUG = true;
 
-  // 오늘 랭킹 호출
+
   const fetchRanking = async () => {
-    const res = await fetch('/api/rankings/today');
-    const data = await res.json();
-    setRanking(data);
+    try {
+      const res = await fetch('/api/rankings/today');
+      const data = await res.json();
+
+      /* 디버깅 */
+      if (DEBUG) console.log('[랭킹 응답]', data);
+      /* ----------------------------------------- */
+
+      if (Array.isArray(data)) {
+        const filtered = data.filter(item => item?.username && item.totalScore != null);
+        setRanking(filtered); // ✅ 정상적인 배열일 경우에만 설정
+      } else {
+        setRanking([]);
+        setMessage('⚠️ 랭킹 데이터가 없습니다.');
+      }
+    } catch (err) {
+      setRanking([]);
+      setMessage('❌ 랭킹 정보를 불러오지 못했습니다.');
+
+      /* 디버깅 */
+      if (DEBUG) console.error('[랭킹 오류]', err);
+      /* ------------------------------------------ */
+      
+    }
   };
 
   useEffect(() => {
-    fetchAttendance();
-    fetchQuiz();
     fetchRanking();
   }, []);
 
   return (
     <div style={{ padding: '2rem', maxWidth: '600px', margin: 'auto' }}>
-      <h2>🗓️ 오늘 출석 체크</h2>
-      <p>{attendance?.checked ? '✅ 출석하셨습니다.' : '❌ 아직 출석하지 않음'}</p>
-      <h2 style={{ marginTop: '1.5rem' }}>🧩 오늘 퀴즈 진행</h2>
-      <p>풀이 수: {quiz?.count || 0}회 / 점수: {quiz?.score || 0}</p>
-      <h2 style={{ marginTop: '1.5rem' }}>🏆 오늘의 랭킹</h2>
-      <ol>
-        {ranking.map((item, idx) => (
-          <li key={item.userId}>
-            {idx + 1}. 사용자 {item.userId} - 총점 {item.totalScore}
-          </li>
-        ))}
-      </ol>
+      <h2>🏆 오늘의 랭킹</h2>
+
+      {ranking.length === 0 ? (
+        <p>{message || '랭킹 정보를 불러오는 중입니다...'}</p>
+      ) : (
+        <ol>
+          {ranking.map((item, idx) => (
+            <li key={idx}>
+              {idx + 1}. {item.username || '사용자'} - {item.totalScore ?? '-'}점
+            </li>
+          ))}
+        </ol>
+      )}
     </div>
   );
 };
