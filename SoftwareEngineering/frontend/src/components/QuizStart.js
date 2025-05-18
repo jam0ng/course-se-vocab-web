@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const QuizStart = () => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user'));
+  const [difficulty, setDifficulty] = useState('easy');
 
   useEffect(() => {
     if (!user || user.role !== 'user') {
@@ -11,6 +12,10 @@ const QuizStart = () => {
       navigate('/');
     }
   }, []);
+
+  const handleStart = () => {
+    navigate(`/quiz?difficulty=${difficulty}`);
+  };
 
   return (
     <div style={{
@@ -36,35 +41,57 @@ const QuizStart = () => {
         💡 퀴즈 Tip <br />
         보기 중 정답은 단 하나! 차분하게 골라보세요.
       </div>
+
+      {/* ✅ 난이도 선택 */}
+      <div style={{ marginBottom: '2rem' }}>
+        <p style={{ fontWeight: 'bold', marginBottom: '0.8rem', fontSize: '1.2rem' }}>난이도 선택</p>
+        <button
+          onClick={() => setDifficulty('easy')}
+          style={{
+            padding: '0.8rem 2rem',
+            marginRight: '1rem',
+            fontSize: '1.1rem',
+            borderRadius: '8px',
+            border: difficulty === 'easy' ? '3px solid #1c7ed6' : '1px solid #ccc',
+            background: '#228be6',
+            color: '#fff',
+            fontWeight: 'bold',
+            cursor: 'pointer'
+          }}
+        >
+          쉬움
+        </button>
+        <button
+          onClick={() => setDifficulty('hard')}
+          style={{
+            padding: '0.8rem 2rem',
+            fontSize: '1.1rem',
+            borderRadius: '8px',
+            border: difficulty === 'hard' ? '3px solid #fa5252' : '1px solid #ccc',
+            background: '#fa5252',
+            color: '#fff',
+            fontWeight: 'bold',
+            cursor: 'pointer'
+          }}
+        >
+          어려움
+        </button>
+      </div>
+
       <button
-        onClick={() => navigate('/quiz')}
+        onClick={handleStart}
         style={{
-          padding: '0.8rem 1.5rem',
+          padding: '0.9rem 14rem',
           borderRadius: '8px',
           border: 'none',
           background: '#51cf66',
           color: '#fff',
-          fontSize: '1.1rem',
+          fontSize: '1.2rem',
           cursor: 'pointer',
-          transition: '0.2s',
-        }}
-        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#40c057'}
-        onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#51cf66'}
-      >
-        🟢 퀴즈 시작하기
-      </button>
-      <br /><br />
-      <button
-        onClick={() => navigate('/')}
-        style={{
-          padding: '0.5rem 1rem',
-          borderRadius: '8px',
-          border: '1px solid #ccc',
-          background: '#f8f9fa',
-          cursor: 'pointer'
+          fontWeight: 'bold'
         }}
       >
-        메인으로 돌아가기
+        퀴즈 시작하기
       </button>
     </div>
   );
