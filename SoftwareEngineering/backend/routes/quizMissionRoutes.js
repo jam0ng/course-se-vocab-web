@@ -5,24 +5,32 @@ const QuizMission = require('../models/quizMission');
 const router = express.Router();
 
 // POST /api/quizzes/submit
+// 정확하게 count + 점수를 갱신하여 응답에 포함시킴
 router.post('/submit', verifyToken, async (req, res) => {
   const userId = req.user.userId;
   const todayStart = new Date();
   todayStart.setHours(0,0,0,0);
+
   try {
-    let mission = await QuizMission.findOneAndUpdate(
-      { userId, date: todayStart },
-      { $inc: { count: 1 } },
-      { upsert: true, new: true }
-    );
-    const quizScore = Math.floor(mission.count / 10) * 5;
-    mission.score = quizScore;
+    let mission = await QuizMission.findOne({ userId, date: todayStart });
+
+    if (!mission) {
+      mission = new QuizMission({ userId, date: todayStart, count: 1, score: 1 });
+    } else {
+      mission.count += 1;
+      mission.score = mission.count; // ✅ 1문제 = 1점
+    }
+
     await mission.save();
+
     return res.json({ message: '퀴즈 제출 처리', mission });
   } catch (err) {
     return res.status(500).json({ message: '퀴즈 제출 실패', error: err.message });
   }
 });
+
+
+
 
 // GET /api/quizzes/today
 router.get('/today', verifyToken, async (req, res) => {
