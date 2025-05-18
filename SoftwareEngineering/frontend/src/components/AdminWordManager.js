@@ -39,7 +39,7 @@ const AdminWordManager = () => {
   }, [words, search]);
 
   const fetchWords = async () => {  // 서버에서 단어 목록을 가져오는 함수
-    const res = await fetch('${process.env.REACT_APP_API_BASE_URL}/api/words');
+    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/words`);
     const data = await res.json();
     const sorted = data.sort((a, b) => a.english.localeCompare(b.english)); // 영어 단어 오름차순 정렬렬
     setWords(sorted);
@@ -59,7 +59,7 @@ const AdminWordManager = () => {
       return setMessage('❌ 영어, 한글 뜻, 예문을 모두 입력해주세요.');
     }
 
-    const res = await fetch('${process.env.REACT_APP_API_BASE_URL}/api/admin/words/add', {
+    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/admin/words/add`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -14,7 +14,7 @@ const MyWordList = () => {
   useEffect(() => {
     const fetchBookmarkedWords = async () => {
       try {
-        const res = await fetch('${process.env.REACT_APP_API_BASE_URL}/api/bookmarks', {
+        const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/bookmarks`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

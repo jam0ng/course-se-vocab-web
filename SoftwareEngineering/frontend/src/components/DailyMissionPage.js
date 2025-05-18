@@ -9,7 +9,7 @@ const DailyMissionPage = () => {
 
   const fetchAttendance = async () => {
     try {
-      const res = await fetch('/api/attendances/today', {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/attendances/today`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -21,7 +21,7 @@ const DailyMissionPage = () => {
 
   const fetchQuiz = async () => {
     try {
-      const res = await fetch('/api/quizzes/today', {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/quizzes/today`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error('퀴즈 API 실패');
@@ -40,7 +40,7 @@ const DailyMissionPage = () => {
 
   const checkIn = async () => {
     try {
-      const res = await fetch('/api/attendances/checkin', {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/attendances/checkin`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
       });

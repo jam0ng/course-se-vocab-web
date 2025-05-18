@@ -26,7 +26,7 @@ const WordList = () => {
     fetchWords();
 
     const fetchBookmarks = async () => {
-      const res = await fetch('${process.env.REACT_APP_API_BASE_URL}/api/bookmarks', {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/bookmarks`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.ok) {
@@ -40,7 +40,7 @@ const WordList = () => {
   }, [token]);
 
   const fetchWords = async () => {
-    const res = await fetch('${process.env.REACT_APP_API_BASE_URL}/api/words');
+    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/words`);
     const data = await res.json();
     setWords(data);
     setFilteredWords(data);

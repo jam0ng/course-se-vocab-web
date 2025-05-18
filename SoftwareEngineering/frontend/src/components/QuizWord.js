@@ -29,17 +29,13 @@ const QuizWord = () => {
   const fetchQuiz = async () => {
     setResult('');
     setSelected('');
-<<<<<<< HEAD
-    const res = await fetch('${process.env.REACT_APP_API_BASE_URL}/api/quiz/word');
-=======
-    const res = await fetch(`http://localhost:5000/api/quiz/word?difficulty=${difficulty}`);
->>>>>>> develop
+    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/quiz/word`);
     const data = await res.json();
     setQuiz(data);
   };
 
   const fetchBookmarks = async () => {
-    const res = await fetch('http://localhost:5000/api/bookmarks', {
+    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/bookmarks`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     if (res.ok) {
@@ -80,7 +76,7 @@ const QuizWord = () => {
     const method = isBookmarked ? 'DELETE' : 'POST';
 
     try {
-      const res = await fetch(`http://localhost:5000/api/bookmarks/${quiz._id}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/bookmarks/${quiz._id}`, {
         method,
         headers: {
           Authorization: `Bearer ${token}`
@@ -148,11 +144,7 @@ const QuizWord = () => {
         gridTemplateColumns: '1fr 1fr',
         gap: '15px'
       }}>
-<<<<<<< HEAD
-        {Array.isArray(quiz?.choices) && quiz.choices.map((choice, idx) => ( // 수정
-=======
         {quiz.options.map((choice, idx) => (
->>>>>>> develop
           <button
             key={idx}
             disabled={!!result}

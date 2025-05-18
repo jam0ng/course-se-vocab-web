@@ -13,7 +13,7 @@ const MyPage = () => {
     setToken(storedToken);
 
     if (storedToken) {
-      fetch('${process.env.REACT_APP_API_BASE_URL}/api/user/profile', {
+      fetch(`${process.env.REACT_APP_API_BASE_URL}/api/user/profile`, {
         headers: { Authorization: `Bearer ${storedToken}` },
       })
         .then((res) => res.json())
@@ -34,7 +34,7 @@ const MyPage = () => {
     if (!token) return setMessage('❌ 인증 토큰이 없습니다.');
     if (!newUsername) return setMessage('❌ 새 닉네임을 입력해주세요.');
     try {
-      const res = await fetch('${process.env.REACT_APP_API_BASE_URL}/api/user/update-profile', {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/user/update-profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ const MyPage = () => {
   const handlePasswordChange = async () => {
     if (!token) return setMessage('❌ 인증 토큰이 없습니다.');
     try {
-      const res = await fetch('${process.env.REACT_APP_API_BASE_URL}/api/user/change-password', {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/user/change-password`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

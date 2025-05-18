@@ -11,7 +11,7 @@ const RankingPage = () => {
 
   const fetchRanking = async () => {
     try {
-      const res = await fetch('/api/rankings/today');
+      const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/rankings/today`);
       const data = await res.json();
 
       /* 디버깅 */
