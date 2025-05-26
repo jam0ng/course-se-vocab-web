@@ -102,6 +102,24 @@ const MainPage = ({ user, onLogout }) => {
             🛠️ 관리자 단어 관리
           </button>
         )}
+        
+      {/* ✅ 사용자 전용 메뉴 */}
+      {user?.role === 'user' && (
+        <button
+          onClick={() => navigate('/ranking')}
+          style={{
+            padding: '0.8rem',
+            borderRadius: '8px',
+            border: '1px solid #339af0',
+            background: '#f1f3f5',
+            cursor: 'pointer',
+            fontSize: '1.1rem'
+          }}
+        >
+          🏆 랭킹 보기
+        </button>
+      )}
+
 
       </div>
     </div>

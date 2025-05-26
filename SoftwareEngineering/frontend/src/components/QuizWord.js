@@ -29,13 +29,13 @@ const QuizWord = () => {
   const fetchQuiz = async () => {
     setResult('');
     setSelected('');
-    const res = await fetch(`http://localhost:5000/api/quiz/word?difficulty=${difficulty}`);
+    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/quiz/word?difficulty=${difficulty}`);
     const data = await res.json();
     setQuiz(data);
   };
 
   const fetchBookmarks = async () => {
-    const res = await fetch('http://localhost:5000/api/bookmarks', {
+    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/bookmarks`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     if (res.ok) {
@@ -76,7 +76,7 @@ const QuizWord = () => {
     const method = isBookmarked ? 'DELETE' : 'POST';
 
     try {
-      const res = await fetch(`http://localhost:5000/api/bookmarks/${quiz._id}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/bookmarks/${quiz._id}`, {
         method,
         headers: {
           Authorization: `Bearer ${token}`
