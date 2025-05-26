@@ -43,7 +43,6 @@ const RankingPage = () => {
   return (
     <div style={{ padding: '2rem', maxWidth: '600px', margin: 'auto' }}>
       <h2>🏆 오늘의 랭킹</h2>
-
       {ranking.length === 0 ? (
         <p>{message || '랭킹 정보를 불러오는 중입니다...'}</p>
       ) : (

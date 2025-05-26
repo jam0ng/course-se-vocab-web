@@ -15,6 +15,8 @@ import MyWordList from './components/MyWordList';
 import RankingPage from './components/RankingPage';
 import MyPage from './components/MyPage';
 import DailyMissionPage from './components/DailyMissionPage';
+import ProfileEditPage from './components/ProfileEditPage';
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -59,7 +61,7 @@ function App() {
           <Route path="/mywords" element={<MyWordList />} />
           <Route path="/mission" element={<DailyMissionPage />} />
           <Route path="/ranking" element={<RankingPage />} />
-
+          <Route path="/profile-edit" element={<ProfileEditPage />} />
 
           {/* ✨ 임시 마이페이지 */}
           <Route path="/mypage" element={<MyPage />} />
