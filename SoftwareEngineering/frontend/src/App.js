@@ -1,7 +1,7 @@
 // src/App.js
 
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Header from './components/Header';
 import Login from './components/Login';
 import Register from './components/Register';
@@ -12,7 +12,9 @@ import QuizWord from './components/QuizWord';
 import QuizResult from './components/QuizResult';
 import AdminWordManager from './components/AdminWordManager';
 import MyWordList from './components/MyWordList';
-
+import RankingPage from './components/RankingPage';
+import MyPage from './components/MyPage';
+import DailyMissionPage from './components/DailyMissionPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -55,10 +57,12 @@ function App() {
           <Route path="/quiz-result" element={<QuizResult />} />
           <Route path="/admin/words" element={<AdminWordManager />} />
           <Route path="/mywords" element={<MyWordList />} />
+          <Route path="/mission" element={<DailyMissionPage />} />
+          <Route path="/ranking" element={<RankingPage />} />
 
 
           {/* ✨ 임시 마이페이지 */}
-          <Route path="/mypage" element={<h2>마이페이지 (준비중)</h2>} />
+          <Route path="/mypage" element={<MyPage />} />
 
           {/* 메인페이지 */}
           <Route path="/" element={
