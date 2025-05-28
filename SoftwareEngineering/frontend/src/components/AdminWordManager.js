@@ -59,7 +59,7 @@ const AdminWordManager = () => {
       return setMessage('❌ 영어, 한글 뜻, 예문을 모두 입력해주세요.');
     }
 
-    const res = await fetch('${process.env.REACT_APP_API_BASE_URL}/api/admin/words/add', {
+    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/admin/words/add`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
